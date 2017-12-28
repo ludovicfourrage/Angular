@@ -12,7 +12,7 @@ import { DishService } from '../services/dish.service';
 export class MenuComponent implements OnInit {
 
   dishes: Dish[];
-  selectedDish = Dish;
+  selectedDish: Dish;
 
   constructor(private dishService: DishService) { }
 
