@@ -6,49 +6,88 @@
   fxLayoutGap="10px" 
   fxLayoutGap.xs="0">
 
-<div fxFlex="40" *ngIf="dish">
-  <md-card>
-    <md-card-header>
-      <md-card-title>
-        <h3>{{dish.name | uppercase}}</h3>
-      </md-card-title>
-    </md-card-header>
-    <img md-card-image src={{dish.image}} alt={{dish.name}}>
-    <md-card-content>
-      <p>{{dish.description}}</p>
-    </md-card-content>
-    <md-card-actions>
-      <button md-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
-      <button md-button (click)="goBack()">BACK</button>
-      <button md-button>LIKE</button>
-      <button md-button>SHARE</button>
-      <span class="flex-spacer"></span>
-      <button md-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
-    </md-card-actions>
-  </md-card>
-</div>
-<div [hidden]="dish">
-    <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
-</div>
+  <div fxFlex="40" *ngIf="dish">
+    <md-card>
+      <md-card-header>
+        <md-card-title>
+          <h3>{{dish.name | uppercase}}</h3>
+        </md-card-title>
+      </md-card-header>
+      <img md-card-image src={{dish.image}} alt={{dish.name}}>
+      <md-card-content>
+        <p>{{dish.description}}</p>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+        <button md-button (click)="goBack()">BACK</button>
+        <button md-button>LIKE</button>
+        <button md-button>SHARE</button>
+        <span class="flex-spacer"></span>
+        <button md-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
+      </md-card-actions>
+    </md-card>
+  </div>
+  <div [hidden]="dish">
+      <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
 
-<div fxFlex="40" *ngIf="dish">
-  <md-list>
-    <h1 md-line> Comments </h1>
-    <md-list-item *ngFor="let commentItem of dish.comments">
-      <p md-line>
-        <span> {{commentItem.comment}} </span>
-      </p>
-      <p md-line>
-        <span> {{commentItem.rating}} Stars</span>
-      </p>
-      <p md-line>
-        <span> -- {{commentItem.author}} </span><span> {{commentItem.date | date}} </span>
-      </p>
-    </md-list-item>
-  </md-list>
-</div>
-<div [hidden]="dish">
-    <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
-</div>
+  <div fxFlex="40" *ngIf="dish">
+    <md-list>
+      <h1 md-line> Comments </h1>
+      <md-list-item *ngFor="let commentItem of dish.comments">
+        <p md-line>
+          <span> {{commentItem.comment}} </span>
+        </p>
+        <p md-line>
+          <span> {{commentItem.rating}} Stars</span>
+        </p>
+        <p md-line>
+          <span> -- {{commentItem.author}} </span><span> {{commentItem.date | date}} </span>
+        </p>
+      </md-list-item>
+    </md-list>
+  
+
+  <h3>Post your Comment</h3>
+  <div *ngIf="commentForm.valid">
+      <md-list>
+        <md-list-item>
+        <p md-line>
+          <span> {{commentForm.get('comment').value}} </span>
+        </p>
+        <p md-line>
+          <span> {{commentForm.get('rating').value}} Stars</span>
+        </p>
+        <p md-line>
+          <span> -- {{commentForm.get('author').value}} </span>
+        </p>
+      </md-list-item>
+    </md-list>
+  </div>
+  
+  <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <md-input-container class="full-width" dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
+       <input mdInput formControlName="author" placeholder="Author" type="text" required>
+       <md-hint>
+         <span [hidden]="!(formErrors.author)">
+           {{formErrors.author}}</span>
+       </md-hint>
+      </md-input-container>
+      <div class="full-width">
+        <md-slider mdInput formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"></md-slider>
+      </div>
+      <md-input-container class="full-width" dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
+        <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=12 required></textarea>
+        <md-hint>
+          <span [hidden]="!(formErrors.comment)">
+            {{formErrors.comment}}</span>
+        </md-hint>
+      </md-input-container>
+      <button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+  </form> 
+  </div>
+  <div [hidden]="dish">
+      <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
 
 </div>
