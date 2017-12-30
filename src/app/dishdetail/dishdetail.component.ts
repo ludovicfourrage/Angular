@@ -76,16 +76,8 @@ export class DishdetailComponent implements OnInit {
   }
 
   onSubmit() {
-    this.comment = new Comment;
-    let todayDateDate = new Date();
-    let todayDateString: string;
-    
-    todayDateString = todayDateDate.toISOString();
-
-    for (const field in this.commentForm.value){
-      this.comment[field] = this.commentForm.get(field).value;
-    }
-    this.comment['date'] = todayDateString;
+    this.comment = this.commentForm.value;
+    this.comment.date = new Date().toISOString();
 
     this.dish.comments.push(this.comment);
 
