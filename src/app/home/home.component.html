@@ -54,7 +54,7 @@
         <h3>{{leader.name | uppercase}}</h3>
       </md-card-title>
     </md-card-header>
-    <img md-card-image src="{{BaseURL + leader.image}}" alt={{leader.name}}>
+    <img md-card-image src={{leader.image}} alt={{leader.name}}>
     <md-card-content>
       <p>{{leader.designation}}</p>
       <p>{{leader.description}}</p>
@@ -62,10 +62,6 @@
 </md-card>
 <div [hidden]="leader">
     <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
-</div>
-<div *ngIf="leaderErrMess">
-  <h2>Error</h2>
-  <h4>{{leaderErrMess}}</h4>
 </div>
 
 </div>
