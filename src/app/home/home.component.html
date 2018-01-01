@@ -33,7 +33,7 @@
       <h3>{{promotion.name | uppercase}}</h3>
     </md-card-title>
   </md-card-header>
-  <img md-card-image src={{promotion.image}} alt={{promotion.name}}>
+  <img md-card-image src="{{BaseURL + promotion.image}}" alt={{promotion.name}}>
   <md-card-content>
     <p>{{promotion.description}}
     </p>
@@ -41,6 +41,10 @@
 </md-card>
 <div [hidden]="promotion">
     <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+</div>
+<div *ngIf="promoErrMess">
+  <h2>Error</h2>
+  <h4>{{promoErrMess}}</h4>
 </div>
 
 <md-card *ngIf="leader" fxFlex>
