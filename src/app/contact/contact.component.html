@@ -37,9 +37,7 @@
       </div>
       <div fxFlex fxFlexOffset="20px" class="form-size">
           <h3>Send us your Feedback</h3>
-          <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
-  
-          <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+          <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" [hidden]="!showmainform">
             <p>
               <md-input-container class="half-width"
                dividerColor="{{(formErrors.firstname) ? 'warn' : 'primary'}}">
@@ -90,9 +88,40 @@
               </table>
             <p>
               <md-input-container class="full-width">
-                <textarea mdInput formControlName="message" placeholder="Your Feedback" rows=12></textarea>
+                <textarea mdInput formControlName="message" placeholder="Your Feedback" rows=8></textarea>
               </md-input-container>
             </p>
             <button type="submit" md-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
           </form>
-</div>
+          <div [hidden]="!showspinner">
+            <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+          </div>
+          <div *ngIf="feedbackcopy" [hidden]="!showfeedback">
+            <md-list>
+              <h1 md-line> Your Submission </h1>
+              <md-list-item>
+                <p md-line>
+                  <span>First Name: {{feedbackcopy.firstname}}</span>
+                </p>
+                <p md-line>
+                  <span>Last Name: {{feedbackcopy.lastname}}</span>
+                </p>
+                <p md-line>
+                  <span>Tel. Number: {{feedbackcopy.telnum}}</span>
+                </p>
+                <p md-line>
+                  <span>Email: {{feedbackcopy.email}}</span>
+                </p>
+                <p md-line>
+                  <span>Contact you?: {{feedbackcopy.agree}}</span>
+                </p>
+                <p md-line>
+                  <span>How?: {{feedbackcopy.contacttype}}</span>
+                </p>
+                <p md-line>
+                  <span>Feedback: {{feedbackcopy.message}}</span>
+                </p>
+              </md-list-item>
+            </md-list>
+          </div>  
+    </div>

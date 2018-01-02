@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FeedbackService } from '../services/feedback.service'
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
-import { Services } from '@angular/core/src/view';
+import { visibility, flyInOut, expand } from '../animations/app.animation';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-contact',
@@ -14,15 +14,20 @@ import { Services } from '@angular/core/src/view';
     'style': 'display: block;'
     },
   animations: [
-    flyInOut()
+    visibility(),
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
-  allfeedback = null;
+  feedbackcopy = null;
   contactType = ContactType;
+  showmainform = true;
+  showspinner = false;
+  showfeedback = false;
 
   formErrors = {
     'firstname': '',
@@ -90,10 +95,34 @@ export class ContactComponent implements OnInit {
     }
   }
 
+  formPhases (part: number){
+    if (part == 1){
+      this.showmainform = false;
+      this.showspinner = true;
+      this.showfeedback = false;
+    }
+    else if (part == 2){
+      this.showmainform = false;
+      this.showspinner = false;
+      this.showfeedback = true;
+    }
+    else if (part == 3){
+      this.showmainform = true;
+      this.showspinner = false;
+      this.showfeedback = false;
+    }
+  }
+
   onSubmit() {
     this.feedback = this.feedbackForm.value;
+    this.formPhases(1);
     
-    this.feedbackservice.submitFeedback(this.feedback);
+    this.feedbackservice.submitFeedback(this.feedback)
+      .subscribe(responsefeedback => {
+        this.feedbackcopy = responsefeedback; 
+        this.formPhases(2);
+        setTimeout(() => this.formPhases(3), 5000);
+      });
 
     this.feedbackForm.reset({
       firstname: '',
