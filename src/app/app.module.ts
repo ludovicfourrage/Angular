@@ -12,6 +12,7 @@ import 'hammerjs';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
 import { DishService } from './services/dish.service';
+import { FeedbackService } from './services/feedback.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { HeaderComponent } from './header/header.component';
@@ -61,6 +62,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     PromotionService, 
     LeaderService,
     ProcessHttpmsgService,
+    FeedbackService,
     {provide: 'BaseURL', useValue: baseURL}
   ],
   entryComponents: [
